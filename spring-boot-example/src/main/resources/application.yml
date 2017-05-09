@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  context-path: /example
+user: 
+  admin: 
+    name: hello
+    role: admin
+#数据库设置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.16.192.103:3306/vport_oneway?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false 
+    username: oneway
+    password: oneway
+#-----------------------
+#下面为连接池补充设置
+    initialSize: 5
+    # 配置获取连接等待超时的时间   
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒 
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据 
+    useGlobalDataSourceStat: true
+    
+mybatis:
+  mapper-locations: classpath*:org/spring/boot/mapper/*.xml
+  check-config-location: true
+  type-aliases-package: org.spring.boot.po
+    
+pagehelper: 
+  autoDialect: true
+  closeConn: false
+  reasonable: true
+    

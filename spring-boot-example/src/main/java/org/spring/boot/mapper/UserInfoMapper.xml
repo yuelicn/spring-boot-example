@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.spring.boot.dao.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.spring.boot.po.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="gov_code" property="govCode" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, gov_code, user_name, user_code, user_password, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.spring.boot.po.UserInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.spring.boot.po.UserInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into user_info (id, gov_code, user_name, 
+      user_code, user_password, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{govCode,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userCode,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.spring.boot.po.UserInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="govCode != null" >
+        gov_code,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="userPassword != null" >
+        user_password,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="govCode != null" >
+        #{govCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.spring.boot.po.UserInfoExample" resultType="java.lang.Integer" >
+    select count(*) from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- 通过用户编号删除 -->
+  <delete id="deleteByUserCode" parameterType="java.lang.String" >
+    delete from user_info
+    where user_code = #{userCode,jdbcType=VARCHAR}
+  </delete>
+  <!-- 通过机构ID删除 -->
+  <delete id="deleteByGovCode" parameterType="java.lang.String" >
+    delete from user_info
+    where gov_code = #{govCode,jdbcType=VARCHAR}
+  </delete>
+</mapper>

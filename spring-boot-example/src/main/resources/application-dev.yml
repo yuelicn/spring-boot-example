@@ -1,0 +1,7 @@
+server:
+  port: 8080
+  context-path: /example
+user: 
+  admin: 
+    name: hello
+    role: admin
